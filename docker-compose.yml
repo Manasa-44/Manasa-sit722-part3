@@ -1,1 +1,28 @@
-# Your Solution
+version: '3'
+services:
+
+  book-catalog:
+    image: book-catalog
+    build: 
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    container_name: book-catalog
+    ports:
+      - "8083:8081"  # book-catalog will use port 8081
+    environment:
+      - PORT=8081
+      - DATABASE_URL=postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crhvjsjtq21c738477ag-a.oregon-postgres.render.com/db_722task7p2
+    restart: "no"
+
+  inventory-management:
+    image: inventory-management
+    build: 
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    container_name: inventory-management
+    ports:
+     - "8084:8082"  # Changed port to 8082 to avoid conflicts
+    environment:
+      - PORT=8082
+      - DATABASE_URL=postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crhvjsjtq21c738477ag-a.oregon-postgres.render.com/db_722task7p2
+    restart: "no"
