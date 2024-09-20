@@ -1,12 +1,9 @@
 FROM python:3.11-slim
 
 WORKDIR /app
-
-# Copy the requirements.txt from the book_catalog directory into the container
-COPY book_catalog/requirements.txt .
-
-# Copy the app directory from the book_catalog directory into the container's /app directory
-COPY book_catalog/app /app
+COPY requirements.txt .
+COPY ./app .
+RUN pip install -r ./requirements.txt
 
 # Install Python dependencies
 RUN pip install -r ./requirements.txt
