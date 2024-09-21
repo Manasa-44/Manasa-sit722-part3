@@ -1,6 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: inventory-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-management
+  template:
+    metadata:
+      labels:
+        app: inventory-management
+    spec:
+      containers: 
+      - name: inventory-management
+        image: 722task7c2.azurecr.io/inventory-management:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "5000"
+        - name: DATABASE_URL
+          value: "postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crm1863v2p9s73e6klh0-a.oregon-postgres.render.com/db_722task7p2"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-management
+spec:
+  selector:
+    app: inventory-management
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5001  # Host port matching docker-compose
+      targetPort: 5000  # Container port (application runs on port 5000 inside container)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: book-catalog
 spec:
   replicas: 1
@@ -12,15 +49,13 @@ spec:
       labels:
         app: book-catalog
     spec:
-      containers:
+      containers: 
       - name: book-catalog
-        image: 722task7c2.azurecr.io/book-catalog:latest
-        imagePullPolicy: Always
-        ports:                     
-          - containerPort: 8081
+        image: 722task7c2.azurecr.io/book_catalog
+        imagePullPolicy: IfNotPresent
         env:
         - name: PORT
-          value: "8081"
+          value: "3000"
         - name: DATABASE_URL
           value: "postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crm1863v2p9s73e6klh0-a.oregon-postgres.render.com/db_722task7p2"
 ---
@@ -34,44 +69,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8088
-      targetPort: 8081
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: inventory-management
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: inventory-management
-  template:
-    metadata:
-      labels:
-        app: inventory-management
-    spec:
-      containers:
-      - name: inventory-management
-        image: 722task7c2.io/inventory-management:latest
-        imagePullPolicy: Always
-        ports:
-          - containerPort: 8082 
-        env:
-        - name: PORT
-          value: "8082"
-        - name: DATABASE_URL
-          value: "postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crhvjsjtq21c738477ag-a.oregon-postgres.render.com/db_722task7p2"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: inventory-management
-spec:
-  selector:
-    app: inventory-management
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 8089
-      targetPort: 8082
+      port: 3000  # Host port matching docker-compose
+      targetPort: 3000  # Container port (application runs on port 3000 inside container)
