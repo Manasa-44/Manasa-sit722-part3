@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: book-catalog
+  name: inventory-management
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: book-catalog
+      app: inventory-management
   template:
     metadata:
       labels:
-        app: book-catalog
+        app: inventory-management
     spec:
       containers:
-      - name: book-catalog
-        image: 722task7c2.azurecr.io/book-catalog:latest
+      - name: inventory-management
+        image: 722task7c2.azurecr.io/inventory-management:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 30001
@@ -27,10 +27,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: book-catalog
+  name: inventory-management
 spec:
   selector:
-    app: book-catalog
+    app: inventory-management
   type: LoadBalancer
   ports:
     - port: 80

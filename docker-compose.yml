@@ -1,25 +1,21 @@
+version: '3'
 services:
-
   book_catalog:
-    image: book_catalog
-    build: 
+    image: book-catalog:latest
+    build:
       context: ./book_catalog
       dockerfile: Dockerfile
-    container_name: book_catalog
-    ports:
-     - "3000:3000"
+    container_name: book-catalog
     environment:
-      - PORT=3000
-      - DATABASE_URL=postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crm1863v2p9s73e6klh0-a.oregon-postgres.render.com/db_722task7p2
-
+      - PORT=30001
+      - DATABASE_URL=postgresql://db_722task7p2_c9x5_user:6r8t97SiRivkNhXcGJbmuBSgsy6zvUMk@dpg-crqfdkaj1k6c738fke90-a.oregon-postgres.render.com/db_722task7p2_c9x5
+ 
   inventory_management:
-    image: inventory_management
-    build: 
+    image: inventory-management:latest
+    build:
       context: ./inventory_management
       dockerfile: Dockerfile
-    container_name: inventory_management
-    ports:
-     - "5001:5000"
+    container_name: inventory-management
     environment:
-      - PORT=5000
-      - DATABASE_URL=postgresql://db_722task7p2_user:i6IXzaM7YCtr6UC8GXhLIVBvfkWuSnxC@dpg-crm1863v2p9s73e6klh0-a.oregon-postgres.render.com/db_722task7p2
+      - PORT=7001
+      - DATABASE_URL=postgresql://db_722task7p2_c9x5_user:6r8t97SiRivkNhXcGJbmuBSgsy6zvUMk@dpg-crqfdkaj1k6c738fke90-a.oregon-postgres.render.com/db_722task7p2_c9x5
